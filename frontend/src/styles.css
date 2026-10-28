@@ -1,0 +1,25 @@
+:root{--bg:#eef0f1;--card:#fff;--tx:#17212b;--mut:#5f6b76;--bd:#d9dee2;--ac:#0f5c5c;--acx:#fff;--ok:#166534;--bad:#b42318;--warn:#a15c07}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#12181e;--card:#1a232b;--tx:#e6ebef;--mut:#93a0ab;--bd:#2c3945;--ac:#5fc2b8;--acx:#08201e;--ok:#4ade80;--bad:#f97066;--warn:#fdb022}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 8px}
+.mut{color:var(--mut)}.err{color:var(--bad)}.pos{color:var(--ok)}.neg{color:var(--bad)}
+nav{display:flex;gap:4px;border-bottom:1px solid var(--bd);margin-bottom:16px}
+nav a{padding:10px 14px;color:var(--mut);text-decoration:none;border-bottom:3px solid transparent}
+nav a.on{color:var(--tx);border-color:var(--ac);font-weight:700}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:12px}
+.center{text-align:center;padding:40px 16px}.scroll{overflow-x:auto;padding:0}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--bd)}
+th{font-weight:500;color:var(--mut);font-size:13px}
+tr.low td:nth-child(3){color:var(--warn);font-weight:700}
+.bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}.bar input{flex:1;min-width:180px}
+input,select{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;width:100%}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+.btn{background:var(--ac);color:var(--acx);border:0;border-radius:6px;padding:8px 14px;font:inherit;font-weight:500;cursor:pointer}
+.btn.g{background:none;color:var(--tx);border:1px solid var(--bd)}.btn.s{padding:4px 10px;font-size:13px}
+.tag{font-size:12px;padding:2px 8px;border-radius:10px;border:1px solid var(--bd)}.tag.ok{color:var(--ok)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:640px){.grid{grid-template-columns:1fr}}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
