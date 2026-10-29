@@ -12,12 +12,17 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update   # solo para el PMV; en producción usa migraciones (Flyway/Liquibase)
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 
 app:
   product-service:
     url: ${PRODUCT_SERVICE_URL:http://localhost:8081}
   events:
-    publisher: log       # en EA2 cambia a rabbit
+    publisher: ${EVENTS_PUBLISHER:log}   # log = solo escribe en el log; rabbit = publica en RabbitMQ
   security:
     required-scope: ${REQUIRED_SCOPE:inventory.access}
     issuer-uri: ${JWT_ISSUER:}

@@ -22,10 +22,19 @@ Errores: `{ "status": 409, "message": "..." }`. Sin token válido: 401; sin el s
 
 ## Eventos (EA2)
 Al guardar un movimiento se genera `StockMovementRegistered` (formato de la especificación).
-Por ahora se escribe en el log. En EA2 se agrega una implementación de `MovementEventPublisher` para RabbitMQ.
+Con `EVENTS_PUBLISHER=rabbit` se publica en el exchange `inventory.events` (tipo topic, durable) con la clave
+`inventory.movement.registered`, como mensaje JSON persistente. Con `EVENTS_PUBLISHER=log` (por defecto) solo se escribe en el log.
+
+### Qué pasa si el movimiento se guarda pero falla la publicación
+El evento se publica solo DESPUÉS de confirmar la transacción (`@TransactionalEventListener(AFTER_COMMIT)`),
+así nunca se anuncia un movimiento que no existe. La contrapartida: si RabbitMQ no responde en ese instante,
+el movimiento queda guardado, el error se registra en el log (`falló la publicación del evento <eventId>`)
+y el evento no se reenvía automáticamente, por lo que notification-service no genera la alerta.
+La solución robusta es el patrón *transactional outbox* (guardar el evento en una tabla dentro de la misma
+transacción y publicarlo desde allí con reintentos). No se implementa en el PMV por tiempo.
 
 ## Variables de entorno (modo normal)
-DB_URL, DB_USER, DB_PASSWORD, PRODUCT_SERVICE_URL, JWT_ISSUER, JWT_JWK_SET_URI, JWT_AUDIENCE.
+DB_URL, DB_USER, DB_PASSWORD, PRODUCT_SERVICE_URL, JWT_ISSUER, JWT_JWK_SET_URI, JWT_AUDIENCE, EVENTS_PUBLISHER, RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_USER, RABBITMQ_PASSWORD.
 
 ## Ejecutar en local (product-service debe estar corriendo en el puerto 8081)
     $env:SPRING_PROFILES_ACTIVE="local"
