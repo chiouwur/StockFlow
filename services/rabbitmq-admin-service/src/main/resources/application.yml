@@ -1,0 +1,17 @@
+server:
+  port: ${SERVER_PORT:8084}
+
+spring:
+  application:
+    name: rabbitmq-admin-service
+
+app:
+  rabbitmq:
+    management-url: ${RABBITMQ_MANAGEMENT_URL:http://localhost:15672}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+
+  security:
+    issuer-uri: ${JWT_ISSUER:}
+    jwk-set-uri: ${JWT_JWK_SET_URI:}
+    audience: ${JWT_AUDIENCE:}
