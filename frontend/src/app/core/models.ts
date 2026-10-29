@@ -32,6 +32,15 @@ export interface StockLevel {
   currentStock: number;
 }
 
+// notification-service
+export interface Alert {
+  id: string;
+  productId: string;
+  message: string;
+  date: string;
+  status: string;
+}
+
 // Producto + su stock, combinados en la pantalla. null = inventory-service no respondió.
 export interface ProductView extends Product {
   currentStock: number | null;
