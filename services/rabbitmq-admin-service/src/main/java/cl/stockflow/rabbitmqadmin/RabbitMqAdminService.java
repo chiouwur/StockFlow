@@ -1,3 +1,4 @@
+
 package cl.stockflow.rabbitmqadmin;
 
 import java.util.List;
@@ -32,7 +33,9 @@ public class RabbitMqAdminService {
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> queues() {
         return client.get()
-                .uri("/api/queues/%2F")
+                .uri(uriBuilder ->
+                        uriBuilder.path("/api/queues/{vhost}")
+                                .build("/"))
                 .retrieve()
                 .body(List.class);
     }
@@ -40,7 +43,9 @@ public class RabbitMqAdminService {
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> exchanges() {
         return client.get()
-                .uri("/api/exchanges/%2F")
+                .uri(uriBuilder ->
+                        uriBuilder.path("/api/exchanges/{vhost}")
+                                .build("/"))
                 .retrieve()
                 .body(List.class);
     }
@@ -48,7 +53,9 @@ public class RabbitMqAdminService {
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> bindings() {
         return client.get()
-                .uri("/api/bindings/%2F")
+                .uri(uriBuilder ->
+                        uriBuilder.path("/api/bindings/{vhost}")
+                                .build("/"))
                 .retrieve()
                 .body(List.class);
     }

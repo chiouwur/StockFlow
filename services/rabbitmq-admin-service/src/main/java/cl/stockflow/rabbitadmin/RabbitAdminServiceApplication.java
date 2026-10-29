@@ -1,12 +1,11 @@
-package cl.stockflow.rabbitmqadmin;
+package cl.stockflow.rabbitadmin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RabbitmqAdminApplication {
-
+public class RabbitAdminServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RabbitmqAdminApplication.class, args);
+        SpringApplication.run(RabbitAdminServiceApplication.class, args);
     }
 }
