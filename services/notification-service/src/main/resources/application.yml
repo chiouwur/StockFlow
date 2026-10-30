@@ -19,15 +19,14 @@ spring:
     password: ${RABBITMQ_PASSWORD:guest}
     listener:
       simple:
-        default-requeue-rejected: false   # un mensaje rechazado va a la DLQ, no vuelve a la cola
-        retry:
-          enabled: true
-          max-attempts: 3
-          initial-interval: 1s
-          multiplier: 2
-          max-interval: 10s
+        acknowledge-mode: manual          # el consumidor hace ACK/NACK explícito
+        default-requeue-rejected: false   # un rechazo va a la DLQ, nunca vuelve a la cola
+        prefetch: 10
 
 app:
+  messaging:
+    max-attempts: 3        # intentos ante fallas transitorias antes de enviar a la DLQ
+    retry-delay-ms: 1000   # espera base entre intentos (1 s, 2 s, ...)
   security:
     required-scope: ${REQUIRED_SCOPE:inventory.access}
     issuer-uri: ${JWT_ISSUER:}

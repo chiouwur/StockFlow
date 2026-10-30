@@ -19,11 +19,11 @@ public class AlertService {
     }
 
     // Regla de la especificación: si stockAfter <= minimumStock se registra una alerta.
-    // Un evento inválido lanza IllegalArgumentException: eso activa los reintentos y, al final, la DLQ.
+    // Un evento inválido lanza InvalidEventException: el consumidor lo manda directo a la DLQ, sin reintentos.
     @Transactional
     public void process(StockMovementEvent e) {
         if (e.eventId() == null || e.productId() == null || e.stockAfter() < 0 || e.minimumStock() < 0) {
-            throw new IllegalArgumentException("Evento inválido: faltan datos o hay valores negativos (eventId=" + e.eventId() + ")");
+            throw new InvalidEventException("Evento inválido: faltan datos o hay valores negativos (eventId=" + e.eventId() + ")");
         }
         if (e.stockAfter() > e.minimumStock()) {
             log.info("Movimiento procesado sin alerta: productId={} stockAfter={} minimumStock={}", e.productId(), e.stockAfter(), e.minimumStock());

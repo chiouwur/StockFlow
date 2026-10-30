@@ -4,10 +4,22 @@ Consumidor de eventos de inventario y alertas de stock bajo (Spring Boot 3.5, Ja
 
 ## Flujo
 1. inventory-service publica `StockMovementRegistered` en el exchange `inventory.events` (clave `inventory.movement.registered`).
-2. Este servicio consume la cola `notification.stock-movements`.
+2. Este servicio consume la cola `notification.stock-movements` con **confirmación manual** (ACK/NACK explícito).
 3. Si `stockAfter <= minimumStock` guarda una alerta (tabla `alerts`, una por evento).
-4. Si el mensaje falla: 3 intentos (1 s, 2 s) y después se registra el error (log y tabla `processing_errors`)
-   y se rechaza sin reencolar, con lo que RabbitMQ lo envía a la DLQ `notification.stock-movements.dlq`.
+
+## Confirmación de mensajes y manejo de errores
+| Situación | Decisión |
+|---|---|
+| Procesado correctamente | ACK |
+| Evento ya procesado (duplicado) | ACK, se ignora |
+| JSON ilegible o evento inválido (no recuperable) | NACK sin reencolar: va a la DLQ de inmediato, sin reintentos |
+| Falla transitoria (por ejemplo, base de datos caída) | Reintentos con espera creciente (`app.messaging.max-attempts`, `retry-delay-ms`); si se agotan, NACK a la DLQ |
+| Error inesperado | NACK sin reencolar: va a la DLQ, no se reintenta a ciegas |
+| Aplicación detenida durante la espera | NACK con reencolado: el mensaje no se pierde |
+
+Todo mensaje que llega a la DLQ se registra en el log (`Mensaje enviado a la DLQ ...`) y en la tabla `processing_errors`
+con su contenido y el motivo (`NON_RECOVERABLE`, `RETRIES_EXHAUSTED`, `UNEXPECTED`).
+Los mensajes de la DLQ quedan en RabbitMQ para revisarlos o reprocesarlos manualmente.
 
 ## Topología (se declara sola al arrancar)
 - exchange `inventory.events` (topic, durable)

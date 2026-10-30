@@ -57,6 +57,6 @@ class AlertServiceTest {
 
     @Test
     void invalidEventIsRejectedSoItGoesToTheDeadLetterQueue() {
-        assertThrows(IllegalArgumentException.class, () -> service.process(event(-1, 5)));
+        assertThrows(InvalidEventException.class, () -> service.process(event(-1, 5)));
     }
 }
