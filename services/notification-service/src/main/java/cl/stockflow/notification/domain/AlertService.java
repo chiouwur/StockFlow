@@ -19,27 +19,56 @@ public class AlertService {
     }
 
     // Regla de la especificación: si stockAfter <= minimumStock se registra una alerta.
-    // Un evento inválido lanza InvalidEventException: el consumidor lo manda directo a la DLQ, sin reintentos.
+    // Los eventos inválidos se envían directamente a la DLQ, sin reintentos.
     @Transactional
     public void process(StockMovementEvent e) {
-        if (e.eventId() == null || e.productId() == null || e.stockAfter() < 0 || e.minimumStock() < 0) {
-            throw new InvalidEventException("Evento inválido: faltan datos o hay valores negativos (eventId=" + e.eventId() + ")");
+
+        if (e == null
+                || e.eventId() == null
+                || e.eventType() == null || e.eventType().isBlank()
+                || e.movementId() == null
+                || e.productId() == null
+                || e.movementType() == null || e.movementType().isBlank()
+                || e.quantity() <= 0
+                || e.stockAfter() < 0
+                || e.minimumStock() < 0) {
+
+            throw new InvalidEventException(
+                    "Evento inválido: faltan datos obligatorios o contiene valores negativos/no permitidos"
+            );
         }
+
         if (e.stockAfter() > e.minimumStock()) {
-            log.info("Movimiento procesado sin alerta: productId={} stockAfter={} minimumStock={}", e.productId(), e.stockAfter(), e.minimumStock());
+            log.info(
+                    "Movimiento procesado sin alerta: productId={} stockAfter={} minimumStock={}",
+                    e.productId(), e.stockAfter(), e.minimumStock()
+            );
             return;
         }
+
         if (alerts.existsByEventId(e.eventId())) {
             log.info("Evento {} ya procesado; se ignora", e.eventId());
             return;
         }
-        String message = "Stock bajo: quedan " + e.stockAfter() + " unidades (mínimo " + e.minimumStock() + ")";
-        alerts.save(new Alert(e.productId(), e.eventId(), message, e.occurredAt() != null ? e.occurredAt() : java.time.Instant.now()));
+
+        String message = "Stock bajo: quedan " + e.stockAfter()
+                + " unidades (mínimo " + e.minimumStock() + ")";
+
+        alerts.save(new Alert(
+                e.productId(),
+                e.eventId(),
+                message,
+                e.occurredAt() != null ? e.occurredAt() : java.time.Instant.now()
+        ));
+
         log.warn("ALERTA productId={} {}", e.productId(), message);
     }
 
     @Transactional(readOnly = true)
     public List<AlertResponse> latest() {
-        return alerts.findTop100ByOrderByDateDesc().stream().map(AlertResponse::from).toList();
+        return alerts.findTop100ByOrderByDateDesc()
+                .stream()
+                .map(AlertResponse::from)
+                .toList();
     }
 }
