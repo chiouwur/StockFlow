@@ -105,7 +105,7 @@ $after = Call GET '/api/processing-errors'
 if ($null -ne $before.Json.messagesInQueue -and $null -ne $after.Json.messagesInQueue) {
   $grew = ($after.Json.messagesInQueue -ge $before.Json.messagesInQueue + 2)
 } else {
-  $grew = (@(Items $after.Json).Count -ge $countBefore + 2)
+  $grew = (@(Items $after.Json.errors).Count -ge $countBefore + 2)
 }
 Check 'Los 2 mensajes fallidos llegaron a la DLQ y quedaron registrados' ($after.Status -eq 200 -and $grew) 'revisa notification-service'
 
