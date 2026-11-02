@@ -1,0 +1,541 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "StockFlow API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/products": {
+      "get": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "GET",
+          "uri": "__PRODUCT_SERVICE_URL__/api/products",
+          "passthroughBehavior": "when_no_match"
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "POST",
+          "uri": "__PRODUCT_SERVICE_URL__/api/products",
+          "passthroughBehavior": "when_no_match"
+        }
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "CORS",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,PATCH,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "GET",
+          "uri": "__PRODUCT_SERVICE_URL__/api/products/{id}",
+          "passthroughBehavior": "when_no_match",
+          "requestParameters": {
+            "integration.request.path.id": "method.request.path.id"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "PUT",
+          "uri": "__PRODUCT_SERVICE_URL__/api/products/{id}",
+          "passthroughBehavior": "when_no_match",
+          "requestParameters": {
+            "integration.request.path.id": "method.request.path.id"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "CORS",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,PATCH,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/products/{id}/deactivate": {
+      "patch": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "PATCH",
+          "uri": "__PRODUCT_SERVICE_URL__/api/products/{id}/deactivate",
+          "passthroughBehavior": "when_no_match",
+          "requestParameters": {
+            "integration.request.path.id": "method.request.path.id"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "CORS",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,PATCH,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/movements": {
+      "get": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "GET",
+          "uri": "__INVENTORY_SERVICE_URL__/api/movements",
+          "passthroughBehavior": "when_no_match"
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "POST",
+          "uri": "__INVENTORY_SERVICE_URL__/api/movements",
+          "passthroughBehavior": "when_no_match"
+        }
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "CORS",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,PATCH,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stock": {
+      "get": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "GET",
+          "uri": "__INVENTORY_SERVICE_URL__/api/stock",
+          "passthroughBehavior": "when_no_match"
+        }
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "CORS",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,PATCH,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stock/{productId}": {
+      "get": {
+        "security": [
+          {
+            "lambda-authorizer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "http_proxy",
+          "httpMethod": "GET",
+          "uri": "__INVENTORY_SERVICE_URL__/api/stock/{productId}",
+          "passthroughBehavior": "when_no_match",
+          "requestParameters": {
+            "integration.request.path.productId": "method.request.path.productId"
+          }
+        },
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "options": {
+        "responses": {
+          "200": {
+            "description": "CORS",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "type": "mock",
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,PATCH,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "lambda-authorizer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "x-amazon-apigateway-authtype": "custom",
+        "x-amazon-apigateway-authorizer": {
+          "type": "token",
+          "authorizerUri": "arn:aws:apigateway:__REGION__:lambda:path/2015-03-31/functions/arn:aws:lambda:__REGION__:__ACCOUNT_ID__:function:stockflow-authorizer/invocations",
+          "authorizerResultTtlInSeconds": 300,
+          "identityValidationExpression": "^Bearer .+"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-gateway-responses": {
+    "DEFAULT_4XX": {
+      "responseParameters": {
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+      }
+    },
+    "DEFAULT_5XX": {
+      "responseParameters": {
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'http://localhost:4200'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Authorization,Content-Type'"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update   # solo para el PMV; en producción usa migraciones (Flyway/Liquibase)
+
+app:
+  security:
+    required-scope: ${REQUIRED_SCOPE:inventory.access}
+    issuer-uri: ${JWT_ISSUER:}
+    jwk-set-uri: ${JWT_JWK_SET_URI:}
+    audience: ${JWT_AUDIENCE:}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:4200}

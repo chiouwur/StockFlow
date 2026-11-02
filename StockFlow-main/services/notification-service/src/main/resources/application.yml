@@ -1,0 +1,36 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update   # solo para el PMV; en producción usa migraciones (Flyway/Liquibase)
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        acknowledge-mode: manual          # el consumidor hace ACK/NACK explícito
+        default-requeue-rejected: false   # un rechazo va a la DLQ, nunca vuelve a la cola
+        prefetch: 10
+
+app:
+  messaging:
+    max-attempts: 3        # intentos ante fallas transitorias antes de enviar a la DLQ
+    retry-delay-ms: 1000   # espera base entre intentos (1 s, 2 s, ...)
+  security:
+    required-scope: ${REQUIRED_SCOPE:inventory.access}
+    issuer-uri: ${JWT_ISSUER:}
+    jwk-set-uri: ${JWT_JWK_SET_URI:}
+    audience: ${JWT_AUDIENCE:}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:4200}
